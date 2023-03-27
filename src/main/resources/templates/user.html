@@ -1,0 +1,96 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>User panel</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-xl navbar-dark text-white bg-dark">
+
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse show" id="navbarDark">
+            <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+                <span class="align-middle font-weight-bold mr-1" th:text="${user.getName()}"></span></b>
+                <span class="align-middle mr-1">with roles:</span>
+                <span class="align-middle" th:each="role:${user.getRoles()}" th:text="${role.getName}">
+                    </span>
+            </ul>
+        </div>
+
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-dark text-secondary">Logout</button>
+        </form>
+
+    </div>
+</nav>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="p-0 col-2">
+            <div class="nav flex-column nav-pills pt-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link" href="/admin" sec:authorize="hasRole('ROLE_ADMIN')"
+                   aria-controls="v-pills-home" aria-selected="false">Admin</a>
+                <a class="nav-link active" href="/user" sec:authorize="(hasAnyRole('ROLE_USER','ROLE_ADMIN'))"
+                   role="tab"
+                   aria-controls="v-pills-profile" aria-selected="true">User</a>
+            </div>
+        </div>
+
+        <div class="col-10 px-0">
+            <div class="container-fluid">
+                <h1>User information page</h1>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>About user</h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Roles</th>
+                                    </tr>
+
+                                    <td th:text="${user.getId()}"></td>
+                                    <td th:text="${user.getName()}"></td>
+                                    <td th:text="${user.getLastName()}"></td>
+                                    <td th:text="${user.getEmail()}"></td>
+
+                                    <td>
+                                        <li th:each="role: ${user.getRoles()}" th:text="${role.getName()}"></li>
+                                    </td>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>
